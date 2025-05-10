@@ -1,0 +1,82 @@
+dataset_params:
+  im_path: 'D:/new_folder/JOSEPH_FILe/python/AdvancedAI/AI/Diffusion/data/data/vehicle/train'
+  im_channels : 3
+  im_size : 512
+  canny_im_size: 512
+  name: 'vehicle'
+
+
+diffusion_params:
+  num_timesteps: 1000
+  beta_start: 0.00085
+  beta_end: 0.062
+
+
+ldm_params:
+  down_channels: [ 320, 640, 1280 ]
+  mid_channels: [ 1280, 1280 ]
+  up_channels: [ 2560, 1280, 640, 320 ]
+  attn_heads: 8
+  latent_dim: 4
+  time_emb_dim: 320
+  hint_channels: 3
+  group_norm: 32
+  condition_config:
+    condition_types: [ 'class', 'image' ]
+    text_condition_config:
+      text_embed_model: 'clip'
+      train_text_embed_model: False
+      text_embed_dim: 512
+      cond_drop_prob: 0.1
+
+#  down_sample: [ True, True, True ]
+#  attn_down : [True, True, True]
+#  time_emb_dim: 512
+#  norm_channels: 32
+#  num_heads: 16
+#  conv_out_channels : 128
+#  num_down_layers : 2
+#  num_mid_layers : 2
+#  num_up_layers : 2
+
+autoencoder_params:
+  z_channels: 4
+  down_channels : [ 128, 256, 512]
+  group_norm_channels: 32
+  im_channels: 3
+  num_heads: 1
+#
+#  down_sample : [True, True, True]
+#  attn_down : [False, False, False]
+#  norm_channels: 32
+#  num_heads: 4
+#  num_down_layers : 2
+#  num_mid_layers : 2
+#  num_up_layers : 2
+train_params:
+  seed : 1111
+  task_name: 'vehicle_150'
+  ldm_batch_size: 1
+  autoencoder_batch_size: 4
+  subset: 500
+  shuffle: True
+  disc_start: 7500
+  disc_weight: 0.5
+  codebook_weight: 1
+  commitment_beta: 0.2
+  perceptual_weight: 1
+  kl_weight: 0.000005
+  ldm_epochs: 20
+  autoencoder_epochs: 3
+  controlnet_epochs : 10
+  num_samples: 1
+  num_grid_rows: 1
+  ldm_lr: 0.000025
+  ldm_lr_steps : [25, 50, 75, 100]
+  autoencoder_lr: 0.00001
+  controlnet_lr: 0.000064
+  controlnet_lr_steps : [10]
+  autoencoder_acc_steps: 1
+  autoencoder_img_save_steps: 64
+  save_latents : True
+  controlnet_ckpt_name: 'vehicle_controlnet_ckpt_name.pth'
